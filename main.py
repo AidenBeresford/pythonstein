@@ -45,8 +45,14 @@ class Game:
                 
         self.renderer.render()
 
+        for i in range(10):
+            pygame.draw.line(self.screen, "red", (128*i, 0), (128*i, 720),  1)
+
+        for i in range(6):
+            pygame.draw.line(self.screen, "red", (0, 128*i), (1280, 128*i), 1)
+
         pygame.display.flip()
-        
+
         self.dt = self.clock.tick(FRAMES_PER_SECOND) / 1000
         
     def quit(self):
