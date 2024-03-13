@@ -28,8 +28,8 @@ class Renderer:
             dx = target.x - self.pos.x
             dy = target.y - self.pos.y
 
-            ddx = dx / abs(dy) *128
-            ddy = -(dy / abs(dx)) * 128 # don't ask me why this is negative, found through trial and error
+            ddx = dx / abs(dy)
+            ddy = -(dy / abs(dx)) # don't ask me why this is negative, found through trial and error
 
             mapx = int(self.pos.x / 128)
             mapy = int(self.pos.y / 128)
@@ -56,7 +56,7 @@ class Renderer:
 
             hit = False
 
-            while hit == False:
+            while !hit:
                 if sdx < sdy:
                     sdx += ddx
                     mapx += sx
@@ -66,8 +66,8 @@ class Renderer:
                     mapy += sy
                     side = 1
 
-                if self.map[mapy][mapx] > 0:
+                if self.map[][] > 0:
                     hit = True
     
-            pygame.draw.line(self.screen, 'red', self.pos.tuplify(), (sdx + self.pos.x, sdy + self.pos.y))
+            pygame.draw.line(self.screen, 'red', self.pos.tuplify(), target.tuplify())
 
