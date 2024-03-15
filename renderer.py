@@ -72,19 +72,19 @@ class Renderer:
                     hit = True
     
             if side == 0:
-                pdist = int(sdx - ddx)
+                pdist = sdx - ddx
             else:
-                pdist = int(sdy - ddy)
+                pdist = sdy - ddy
 
             pdist = 0.00001 if pdist == 0 else pdist
 
-            h = int(WINDOW_RESOLUTION[1] / pdist * (TILE_SIZE/4))
+            h = WINDOW_RESOLUTION[1] / pdist * (TILE_SIZE/4)
 
-            top = int(-h/2 + WINDOW_RESOLUTION[1]/pdist) 
+            top = -h/2 + WINDOW_RESOLUTION[1]/pdist
             if top < -128:
                 top = -127
 
-            bottom = int(h/2 + WINDOW_RESOLUTION[1]/pdist)
+            bottom = h/2 + WINDOW_RESOLUTION[1]/pdist
             if bottom >= h+128:
                 bottom = h+127
 
