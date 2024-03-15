@@ -7,6 +7,7 @@ from engine.vector2 import Vector2
 DEFAULT_CLEAR_COLOR = pygame.Color(0, 0, 0, 255)
 WINDOW_RESOLUTION = (1280,720)
 FRAMES_PER_SECOND = 60
+TILE_SIZE = 64
 
 class Game:
     def __init__(self):
@@ -35,6 +36,10 @@ class Game:
         self.quit()
 
     def loop(self):
+        
+        self.front = Vector2(self.player.x + self.player.direction.x*10, self.player.y - self.player.direction.y*10)
+        self.back = Vector2(self.player.x - self.player.direction.x*10, self.player.y + self.player.direction.y*10)
+
         self.input_handler()
         
         self.screen.fill(DEFAULT_CLEAR_COLOR)
@@ -56,11 +61,13 @@ class Game:
 
     def movement_input(self, keys):
         if keys[pygame.K_w]:
-            self.player.y -= self.move_speed * math.sin(self.player.direction.angle()) * self.dt
-            self.player.x += self.move_speed * math.cos(self.player.direction.angle()) * self.dt
+            if self.map[int(self.front.y/TILE_SIZE)][int(self.front.x/TILE_SIZE)] == 0:
+                self.player.y -= self.move_speed * math.sin(self.player.direction.angle()) * self.dt
+                self.player.x += self.move_speed * math.cos(self.player.direction.angle()) * self.dt
         if keys[pygame.K_s]:
-            self.player.y += self.move_speed * math.sin(self.player.direction.angle()) * self.dt
-            self.player.x -= self.move_speed * math.cos(self.player.direction.angle()) * self.dt
+            if self.map[int(self.back.y/TILE_SIZE)][int(self.back.x/TILE_SIZE)] == 0:
+                self.player.y += self.move_speed * math.sin(self.player.direction.angle()) * self.dt
+                self.player.x -= self.move_speed * math.cos(self.player.direction.angle()) * self.dt
         if keys[pygame.K_a]:
             self.player.direction.rotate(-.1)
         if keys[pygame.K_d]:

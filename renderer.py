@@ -70,22 +70,13 @@ class Renderer:
                 
                 if self.map[mapy][mapx] > 0:
                     hit = True
-   
-            if side == 0:
-                if sx == 1:
-                    target = Vector2(mapx*TILE_SIZE, (self.pos.x - mapx*TILE_SIZE)*(math.tan(t))+self.pos.y)
-                else: 
-                    target = Vector2((mapx+1)*TILE_SIZE, (self.pos.x - (mapx+1)*TILE_SIZE)*(math.tan(t))+self.pos.y)    
-            elif side == 1:
-                if sy == 1:
-                    target = Vector2(math.tan(math.radians(90)-t) * (self.pos.y - mapy*TILE_SIZE)+self.pos.x, mapy*TILE_SIZE)    
-                else:
-                    target = Vector2(math.tan(math.radians(90)-t) * (self.pos.y - (mapy+1)*TILE_SIZE)+self.pos.x, (mapy+1)*TILE_SIZE)    
-           
+    
             if side == 0:
                 pdist = int(sdx - ddx)
             else:
                 pdist = int(sdy - ddy)
+
+            pdist = 0.00001 if pdist == 0 else pdist
 
             h = int(WINDOW_RESOLUTION[1] / pdist * (TILE_SIZE/4))
 
