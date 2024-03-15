@@ -7,6 +7,7 @@ from player import Player
 FOV = 90
 RAYLENGTH = 1
 WINDOW_RESOLUTION = (1280, 720)
+TILE_SIZE = 64
 
 class Renderer:
     def __init__(self, screen, world, player):
@@ -29,11 +30,11 @@ class Renderer:
             dx = target.x - self.pos.x
             dy = target.y - self.pos.y
 
-            ddx = abs(1 / dx) * 128
-            ddy = abs(1 / dy) * 128
+            ddx = abs(1 / dx) * TILE_SIZE
+            ddy = abs(1 / dy) * TILE_SIZE
 
-            mapx = math.floor(self.pos.x / 128)
-            mapy = math.floor(self.pos.y / 128) 
+            mapx = math.floor(self.pos.x / TILE_SIZE)
+            mapy = math.floor(self.pos.y / TILE_SIZE) 
           
             sx = None
             sy = None
@@ -43,17 +44,17 @@ class Renderer:
 
             if dx < 0:
                 sx = -1
-                sdx = (self.pos.x - mapx*128) * (ddx/128)
+                sdx = (self.pos.x - mapx*TILE_SIZE) * (ddx/TILE_SIZE)
             else:
                 sx = 1
-                sdx = ((mapx + 1)*128 - self.pos.x) * (ddx/128)
+                sdx = ((mapx + 1)*TILE_SIZE - self.pos.x) * (ddx/TILE_SIZE)
 
             if dy < 0:
                 sy = -1
-                sdy = (self.pos.y - mapy*128) * (ddy/128)
+                sdy = (self.pos.y - mapy*TILE_SIZE) * (ddy/TILE_SIZE)
             else:
                 sy = 1
-                sdy = ((mapy + 1)*128 - self.pos.y) * (ddy/128)
+                sdy = ((mapy + 1)*TILE_SIZE - self.pos.y) * (ddy/TILE_SIZE)
 
             hit = False
 
@@ -72,27 +73,27 @@ class Renderer:
    
             if side == 0:
                 if sx == 1:
-                    target = Vector2(mapx*128, (self.pos.x - mapx*128)*(math.tan(t))+self.pos.y)
+                    target = Vector2(mapx*TILE_SIZE, (self.pos.x - mapx*TILE_SIZE)*(math.tan(t))+self.pos.y)
                 else: 
-                    target = Vector2((mapx+1)*128, (self.pos.x - (mapx+1)*128)*(math.tan(t))+self.pos.y)    
+                    target = Vector2((mapx+1)*TILE_SIZE, (self.pos.x - (mapx+1)*TILE_SIZE)*(math.tan(t))+self.pos.y)    
             elif side == 1:
                 if sy == 1:
-                    target = Vector2(math.tan(math.radians(90)-t) * (self.pos.y - mapy*128)+self.pos.x, mapy*128)    
+                    target = Vector2(math.tan(math.radians(90)-t) * (self.pos.y - mapy*TILE_SIZE)+self.pos.x, mapy*TILE_SIZE)    
                 else:
-                    target = Vector2(math.tan(math.radians(90)-t) * (self.pos.y - (mapy+1)*128)+self.pos.x, (mapy+1)*128)    
+                    target = Vector2(math.tan(math.radians(90)-t) * (self.pos.y - (mapy+1)*TILE_SIZE)+self.pos.x, (mapy+1)*TILE_SIZE)    
            
             if side == 0:
                 pdist = int(sdx - ddx)
             else:
                 pdist = int(sdy - ddy)
 
-            h = int(WINDOW_RESOLUTION[1] / pdist * 32)
+            h = int(WINDOW_RESOLUTION[1] / pdist * (TILE_SIZE/4))
 
-            top = int((-h/2) + (WINDOW_RESOLUTION[1]/pdist)) 
+            top = int(-h/2 + WINDOW_RESOLUTION[1]/pdist) 
             if top < -128:
                 top = -127
 
-            bottom = int((h/2) + (WINDOW_RESOLUTION[1]/pdist))
+            bottom = int(h/2 + WINDOW_RESOLUTION[1]/pdist)
             if bottom >= h+128:
                 bottom = h+127
 

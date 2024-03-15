@@ -15,15 +15,19 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
         self.dt = 0 # delta time
-        self.player = Player(Vector2(WINDOW_RESOLUTION[0]/2, WINDOW_RESOLUTION[1]/2))
-        self.move_speed = 300
+        self.player = Player(Vector2(8*64, 4*64))
+        self.move_speed = 150
 
-        self.map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                    [1, 0, 0, 0, 0, 1, 0, 1, 0, 1],
-                    [1, 1, 0, 1, 0, 0, 0, 0, 0, 1],
-                    [1, 1, 0, 1, 0, 0, 0, 0, 0, 1],
-                    [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]] 
+        self.map = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                    [1,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,1,1],
+                    [1,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1],
+                    [1,1,0,1,0,0,0,0,0,1,0,0,0,0,0,1,1,1,1,1],
+                    [1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,1],
+                    [1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0,0,1,1],
+                    [1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]] 
 
         self.renderer = Renderer(self.screen, self.map, self.player)
 
@@ -62,9 +66,9 @@ class Game:
         if keys[pygame.K_d]:
             self.player.direction.rotate(.1)
         if keys[pygame.K_LSHIFT]:
-            self.move_speed = 600
-        else:
             self.move_speed = 300
+        else:
+            self.move_speed = 150
 
 def main():
     game = Game()
