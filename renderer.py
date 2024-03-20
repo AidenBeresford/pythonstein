@@ -104,12 +104,12 @@ class Renderer:
 
             #texw, texh = tex.size
             
-            texx = wall #* texw       
+            texx = wall * 64 #* texw       
           
             column = tex.subsurface(int(texx), 0, 1, 64)
             column = pygame.transform.scale(column, (1, lineh*2))
 
-            self.screen.blit(column, (line, int(bottom - top)))
+            self.screen.blit(column, (line, int(256/2 - lineh/2)))
             
             line += 1
 
