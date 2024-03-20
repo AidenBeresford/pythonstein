@@ -10,6 +10,7 @@ WINDOW_RESOLUTION = (1280, 720)
 TILE_SIZE = 64
 
 BRICK_WALL = "textures/wall.png"
+HIDDEN_PNG = "textures/hidden.png"
 
 class Renderer:
     def __init__(self, screen, world, player):
@@ -22,7 +23,7 @@ class Renderer:
         self.buffer = []
 
         # define textures
-        self.textures = [pygame.image.load(BRICK_WALL)]
+        self.textures = [pygame.image.load(BRICK_WALL), pygame.image.load(HIDDEN_PNG)]
     
     def render(self):
         self.raycast()
@@ -101,11 +102,11 @@ class Renderer:
 
             tex = self.textures[self.map[mapy][mapx]-1]
 
-            texw = tex.get_width()
+            texw, texh = tex.get_width(), tex.get_height()
             
             texx = wall * texw       
           
-            column = tex.subsurface(texx, 0, 1, 64)
+            column = tex.subsurface(texx, 0, 1, texh)
             column = pygame.transform.scale(column, (1, lineh*2))
 
             self.screen.blit(column, (line, (256/2 - lineh/2)))
