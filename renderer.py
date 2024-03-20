@@ -9,12 +9,20 @@ RAYLENGTH = 1
 WINDOW_RESOLUTION = (1280, 720)
 TILE_SIZE = 64
 
+BRICK_WALL = "textures/wall.png"
+
 class Renderer:
     def __init__(self, screen, world, player):
         self.screen = screen
         self.map = world
         self.pos = player.position
         self.dir = player.direction
+
+        # items to be rendered
+        self.buffer = []
+
+        # define textures
+        self.textures = [pygame.image.load(BRICK_WALL)]
     
     def render(self):
         self.raycast()
@@ -70,29 +78,38 @@ class Renderer:
                 
                 if self.map[mapy][mapx] > 0:
                     hit = True
-    
-            if side == 0:
-                pdist = sdx - ddx
-            else:
-                pdist = sdy - ddy
 
+            # line height rendering
+
+            pdist = sdx - ddx if side == 0 else sdy - ddy
+            pdist *= math.cos(self.dir.angle() - t)        
+    
             pdist = 0.00001 if pdist == 0 else pdist
 
-            h = WINDOW_RESOLUTION[1] / pdist * (TILE_SIZE/4)
+            lineh = WINDOW_RESOLUTION[1] / pdist * (TILE_SIZE/4)
 
-            top = -h/2 + WINDOW_RESOLUTION[1]/pdist
-            if top < -128:
-                top = -127
+            top = -lineh/2 + WINDOW_RESOLUTION[1]/pdist
+            top = 0 if top < 0 else top
 
-            bottom = h/2 + WINDOW_RESOLUTION[1]/pdist
-            if bottom >= h+128:
-                bottom = h+127
+            bottom = lineh/2 + WINDOW_RESOLUTION[1]/pdist
+            bottom = lineh if bottom >= lineh else lineh
+ 
+            # texture rendering
+ 
+            wall = self.pos.y + pdist * target.y if side == 0 else self.pos.x + pdist * target.x
 
-            color = (255,255,255)
+            wall -= math.floor(wall)
 
-            if (side == 0):
-                color = (color[0]/2, color[1]/2, color[2]/2)
+            tex = self.textures[self.map[mapy][mapx]-1]
 
-            pygame.draw.line(self.screen, color, (line, top+128), (line, bottom+128))
+            #texw, texh = tex.size
+            
+            texx = wall #* texw       
+          
+            column = tex.subsurface(int(texx), 0, 1, 64)
+            column = pygame.transform.scale(column, (1, lineh*2))
+
+            self.screen.blit(column, (line, int(bottom - top)))
+            
             line += 1
 
