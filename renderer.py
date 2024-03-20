@@ -32,9 +32,6 @@ class Renderer:
         for t in np.linspace(self.dir.angle() - math.radians(FOV/2), self.dir.angle() + math.radians(FOV/2), WINDOW_RESOLUTION[0]):
             target = Vector2(RAYLENGTH*math.cos(t) + self.pos.x, -RAYLENGTH*math.sin(t) + self.pos.y)
     
-            if line in range(10):
-                print(target.tuplify())
-
             # the following algorithm is supposed to be dda but it's like the fucked up twisted version from my deep psyche
             # viewer discretion advised >:)
 
@@ -104,7 +101,7 @@ class Renderer:
 
             tex = self.textures[self.map[mapy][mapx]-1]
 
-            texw, texh = tex.get_width(), tex.get_height()
+            texw = tex.get_width()
             
             texx = wall * texw       
           
